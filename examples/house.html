@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>House | SimpleMesh</title>
+		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript">
+
+		// Initialize global vars
+		var canvas;
+		var ctx;
+		var WIDTH;
+		var HEIGHT;
+		var bg;
+		var cube;
+		var mX = 0; // The mouse X pos over the canvas
+		var mY = 0; // The mouse Y pos over the canvas
+		var dX = 0; // The difference in X between frames
+		var dY = 0; // The difference in Y between frames
+		var tX = 0; // Temporary X storage between frames
+		var tY = 0; // Temporary Y storage between frames
+		var follow = false; // Control variable, since events sometimes fire in unpredicatble orders
+		var debug = {}; // Container for some debug values
+
+		// Wait for the canvas element to load
+		window.onload = function() {
+			setup();
+			// Default to 60fps for this example. In production, use
+			// requestAnimationFrame with callback so browser chooses framerate
+			window.setInterval(loop, 1000 / 60);
+		}
+
+		/* *
+		 * Configure our environment
+		 */
+		function setup() {
+
+			// Set the canvas, context, some useful constants, and translate
+			// the coordinate system to the center
+			canvas = document.getElementById('canvas');
+			WIDTH = canvas.width;
+			HEIGHT = canvas.height;
+			ctx = canvas.getContext('2d');
+			ctx.translate( WIDTH/2, HEIGHT/2 );
+
+			// Capture mouse movements over the canvas and reverse Y
+			canvas.onmousemove = function(e) {
+				if( follow ) {
+					// Calculate the mouse position
+					mX = e.pageX - canvas.offsetLeft;
+					mY = e.pageY - canvas.offsetTop;
+
+					// Center on canvas
+					mX = mX - WIDTH / 2;
+					mY = mY - HEIGHT / 2;
+
+					// Reverse Y
+					mY = mY * -1;
+				}
+			}
+
+			// Activate the control variable when we're over the canvas
+			canvas.onmouseover = function() { follow = true; }
+			canvas.onmouseout = function() { follow = false; mX = mY = dX = dY = 0; }
+			canvas.onmousedown = function(e) {
+				house.vertexVisibility = true;
+				e.preventDefault();
+			}
+			canvas.onmouseup = function() { house.vertexVisibility = false; }
+
+			// Setup a nice gradient background for the canvas
+			bg = ctx.createRadialGradient(0, 0, 0, 0, 0, 500);
+			bg.addColorStop(0, '#ffffff');
+			bg.addColorStop(1, '#888888');
+
+			// Initialize our shape
+			house = new SimpleMesh({
+				context : ctx,
+				fog : true,
+				vertexStyle : {
+					fillStyle : '#88ff88',
+					strokeStyle : false,
+					radius : 4,
+					labelVisibility : false
+				}
+			});
+
+			// Load some simple, readable arrays that will be folded
+			// into more complex objects prior to rendering
+			house.loadArrays({
+				vertices : [
+					// Front face
+					[-150, -75, -150], [ 150, -75, -150], [ 150,  75, -150], [-150,  75, -150],
+					// Back face
+					[-150, -75,  150], [ 150, -75,  150], [ 150,  75,  150], [-150,  75,  150],
+					// Door
+					[-30,  -75, -150], [-30,   50, -150], [ 30,   50, -150], [ 30,  -75, -150],
+					// Roof
+					[-170,  65, -175], [   0, 150, -175], [ 170,  65, -175],
+					[-170,  65,  175], [   0, 150,  175], [ 170,  65,  175],
+					// Chimney
+					[  40, 130,  150], [  40, 170,  150], [  80, 170,  150], [  80, 110,  150],
+					[  40, 130,  110], [  40, 170,  110], [  80, 170,  110], [  80, 110,  110]
+				],
+				edges : [
+					// Front face
+					[ 0,  8], [ 1, 11], [ 1,  2], [ 3,  0],
+					// Back face
+					[ 4,  5], [ 5,  6], [ 7,  4],
+					// Sides
+					[ 0,  4], [ 1,  5],
+					// Door
+					[ 8,  9], [ 9, 10], [10, 11],
+					// Roof
+					[12, 13], [13, 14], [15, 16], [16, 17], [12, 15], [13, 16], [14, 17],
+					// Chimney
+					[18, 19], [19, 20], [20, 21], [22, 23],
+					[23, 24], [24, 25], [19, 23], [20, 24]
+				]
+			});
+			
+			// Fetch some table elements for debug output
+			debug.follow = document.getElementById('follow');
+			debug.mouseX = document.getElementById('mouse-x');
+			debug.mouseY = document.getElementById('mouse-y');
+			debug.mouseDx = document.getElementById('mouse-dx');
+			debug.mouseDy = document.getElementById('mouse-dy');
+		};
+
+		/* *
+		 * Frame drawing procedure
+		 */
+		function loop() {
+
+			// Wipe the canvas with the gradient background
+			ctx.fillStyle = bg;
+			ctx.fillRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
+
+			// Calculate the mouse movement between frames
+			dX = mX - tX;
+			dY = mY - tY;
+			tX = mX;
+			tY = mY;
+
+			// Output some info to our debug table
+			debug.follow.innerHTML = follow;
+			debug.mouseX.innerHTML = mX;
+			debug.mouseY.innerHTML = mY;
+			debug.mouseDx.innerHTML = dX;
+			debug.mouseDy.innerHTML = dY;
+
+			// Rotate the house to follow the mouse...
+			if( follow ) {
+				house.theta.x = mY / 10;
+				house.theta.y = mX / 10;
+			// ...or just spin it
+			} else {
+				house.theta.x += .15;
+				house.theta.y += .5;
+			}
+			house.draw();
+		}
+		</script>
+		<style type="text/css">
+		* { font-family:sans-serif; color:#373737; }
+		body { background-color:#eeeeee; }
+		hgroup * { display:inline; font-size:32px; }
+		h2 { color:#cccccc; }
+		canvas{ background-color:#aaaaaa; cursor:pointer; }
+		table { border-collapse:collapse; border:1px solid #bbbbbb; }
+		td { font-family:monospace; text-align:right; background-color:#ffffff; padding:2px 5px; }
+		footer { font-size:12px; color:#aaaaaa; margin:20px 0; }
+		</style>
+	</head>
+	<body>
+		<hgroup>
+			<h1>House</h1>
+			<h2>SimpleMesh</h2>
+		</hgroup>
+
+		<p>This example demonstrates loading a simplified model from arrays and mouse interaction. It will rotate on its own or it will follow the mouse if you hover over the canvas.</p>
+		<p>Pressing the mouse on the canvas will display the vertices in green. The fog effect on the house edges is based on the z-index of each vertice.</p>
+
+		<canvas id="canvas" width="800" height="600">
+			<p>Sorry, your browser does not support the &lt;canvas&gt; element</p>
+		</canvas>
+
+		<table>
+			<tr>
+				<td>follow</td>
+				<td>:</td>
+				<td id="follow">0</td>
+			</tr>
+			<tr>
+				<td>mouseX</td>
+				<td>:</td>
+				<td id="mouse-x">0</td>
+			</tr>
+			<tr>
+				<td>mouseY</td>
+				<td>:</td>
+				<td id="mouse-y">0</td>
+			</tr>
+			<tr>
+				<td>dX</td>
+				<td>:</td>
+				<td id="mouse-dx">0</td>
+			</tr>
+			<tr>
+				<td>dY</td>
+				<td>:</td>
+				<td id="mouse-dy">0</td>
+			</tr>
+		</table>
+
+		<footer>&copy; 2013 Eric Johnson</footer>
+	</body>
+</html>

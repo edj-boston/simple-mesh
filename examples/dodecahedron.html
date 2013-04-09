@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Dodecahedron | SimpleMesh</title>
+		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript">
+
+		// Initialize global vars
+		var canvas;
+		var ctx;
+		var WIDTH;
+		var HEIGHT;
+		var bg;
+		var dodeca;
+		var spinY; // Control varible
+
+		// Wait for the canvas element to load
+		window.onload = function() {
+			setup();
+			// Default to 60fps for this example. In production, use
+			// requestAnimationFrame with callback so browser chooses framerate
+			window.setInterval(loop, 1000 / 60);
+		}
+
+		/* *
+		 * Configure our environment
+		 */
+		function setup() {
+
+			// Set the canvas, context, some useful constants, and translate
+			// the coordinate system to the center
+			canvas = document.getElementById('canvas');
+			WIDTH = canvas.width;
+			HEIGHT = canvas.height;
+			ctx = canvas.getContext('2d');
+			ctx.translate( WIDTH/2, HEIGHT/2 );
+
+			// Event listeners
+			canvas.onmouseover	= function() {
+				dodeca.vertexVisibility	= true;
+				dodeca.vertexLabelVisibility = true;
+			}
+			canvas.onmouseout	= function() {
+				dodeca.vertexVisibility	= false;
+				dodeca.vertexLabelVisibility = false;
+			}
+			canvas.onmousedown	= function(e) {
+				spinY = true;
+				dodeca.faceVisibility = false;
+				e.preventDefault();
+			}
+			canvas.onmouseup	= function() {
+				spinY = false;
+				dodeca.faceVisibility = true;
+				dodeca.theta.y = 10;
+			}
+
+			// Setup a nice gradient background for the canvas
+			bg = ctx.createRadialGradient(0, 0, 0, 0, 0, 500);
+			bg.addColorStop(0, '#888888');
+			bg.addColorStop(1, '#373737');
+
+			// Initialize our shape
+			dodeca = new SimpleMesh({
+				context : ctx,
+				edgeStyle : {
+					lineWidth : 10
+				}
+			});
+
+			dodeca.loadObjects({
+				vertices : {
+					'wre8w' : { x:  0.607, y:  0.000, z:  0.795 },
+					'3peos' : { x:  0.188, y:  0.577, z:  0.795 },
+					'dewfe' : { x: -0.491, y:  0.357, z:  0.795 },
+					'ref9r' : { x: -0.491, y: -0.357, z:  0.795 },
+					'ty3gr' : { x:  0.188, y: -0.577, z:  0.795 },
+					'34ref' : { x:  0.982, y:  0.000, z:  0.188 },
+					't4thf' : { x:  0.304, y:  0.934, z:  0.188 },
+					'zdsgr' : { x: -0.795, y:  0.577, z:  0.188 },
+					'r4htb' : { x: -0.795, y: -0.577, z:  0.188 },
+					'ii88j' : { x:  0.304, y: -0.934, z:  0.188 },
+					'6hgbt' : { x:  0.795, y:  0.577, z: -0.188 },
+					'nrtyy' : { x: -0.304, y:  0.934, z: -0.188 },
+					'6nhyh' : { x: -0.982, y:  0.000, z: -0.188 },
+					'yhjtr' : { x: -0.304, y: -0.934, z: -0.188 },
+					'tyj7j' : { x:  0.795, y: -0.577, z: -0.188 },
+					'56yy5' : { x:  0.491, y:  0.357, z: -0.795 },
+					'5y6hj' : { x: -0.188, y:  0.577, z: -0.795 },
+					'rtrtt' : { x: -0.607, y:  0.000, z: -0.795 },
+					'45tyh' : { x: -0.188, y: -0.577, z: -0.795 },
+					'tytyt' : { x:  0.491, y: -0.357, z: -0.795 }
+				},
+				edges : {
+					//'e34fr' : { a: 'wre8w', b: '3peos', strokeStyle: false },
+					//'546rv' : { a: '3peos', b: 'dewfe', strokeStyle: false },
+					//'78ynr' : { a: 'dewfe', b: 'ref9r', strokeStyle: false },
+					//'rgf34' : { a: 'ref9r', b: 'ty3gr', strokeStyle: false },
+					//'43t34' : { a: 'ty3gr', b: 'wre8w', strokeStyle: false },
+					//'fder3' : { a: 'dewfe', b: 'zdsgr', strokeStyle: false },
+					'thq3t' : { a: 'zdsgr', b: '6nhyh' },
+					'ko956' : { a: '6nhyh', b: 'r4htb' },
+					//'qe34r' : { a: 'r4htb', b: 'ref9r', strokeStyle: false },
+					'yrth4' : { a: 'zdsgr', b: 'nrtyy' },
+					'erg33' : { a: 'nrtyy', b: 't4thf' },
+					//'5by56' : { a: 't4thf', b: '3peos', strokeStyle: false },
+					'wrsrv' : { a: 'r4htb', b: 'yhjtr' },
+					'etrer' : { a: 'yhjtr', b: 'ii88j' },
+					//'zpr3g' : { a: 'ii88j', b: 'ty3gr', strokeStyle: false },
+					'p88rg' : { a: 'nrtyy', b: '5y6hj' },
+					'nr433' : { a: '5y6hj', b: 'rtrtt' },
+					'qwe34' : { a: 'rtrtt', b: '6nhyh' },
+					'12def' : { a: '45tyh', b: 'tytyt' },
+					'0edmf' : { a: 'tytyt', b: 'tyj7j' },
+					'hi98d' : { a: 'tyj7j', b: 'ii88j' },
+					'l30e9' : { a: 'rtrtt', b: '45tyh' },
+					'qf09e' : { a: '45tyh', b: 'yhjtr' },
+					'eo98w' : { a: 'tyj7j', b: '34ref' },
+					//'pq09e' : { a: '34ref', b: 'wre8w', strokeStyle: false },
+					'wr456' : { a: '5y6hj', b: '56yy5' },
+					'awse3' : { a: '56yy5', b: 'tytyt' },
+					'bieiw' : { a: 't4thf', b: '6hgbt' },
+					'xedry' : { a: '6hgbt', b: '34ref' },
+					'jiwoe' : { a: '56yy5', b: '6hgbt' }
+				},
+				faces : {
+					'rweet' : {
+						vertices : [ 'nrtyy', 't4thf', '6hgbt', '34ref', 'tyj7j', 'ii88j', 'yhjtr', 'r4htb', '6nhyh', 'zdsgr' ],
+						fillStyle : function( origin ) {
+							var grad = ctx.createRadialGradient( origin.x, -origin.y, 0, origin.x, -origin.y, 150 );
+							grad.addColorStop(0, '#ffa500');
+							grad.addColorStop(1, '#ff0000');
+							return grad;
+						}
+					}
+				}
+			});
+			dodeca.scale(150);
+			dodeca.theta.y = 10;
+		};
+
+		/* *
+		 * Frame drawing procedure
+		 */
+		function loop() {
+
+			// Wipe the canvas with the gradient background
+			ctx.fillStyle = bg;
+			ctx.fillRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
+
+			dodeca.theta.z++;
+			if( spinY ) dodeca.theta.y++;
+			dodeca.draw();
+		}
+		</script>
+		<style type="text/css">
+		* { font-family:sans-serif; color:#373737; }
+		body { background-color:#eeeeee; }
+		hgroup * { display:inline; font-size:32px; }
+		h2 { color:#cccccc; }
+		canvas{ background-color:#aaaaaa; cursor:pointer; }
+		footer { font-size:12px; color:#aaaaaa; margin:20px 0; }
+		</style>
+	</head>
+	<body>
+		<hgroup>
+			<h1>Dodecahedron</h1>
+			<h2>SimpleMesh</h2>
+		</hgroup>
+
+		<p>Hover over the canvas to display the vertices. Press the mouse button to display vertex labels, rotate the shape and reveal it&#039;s dimensions.</p>
+
+		<canvas id="canvas" width="800" height="600">
+			<p>Sorry, your browser does not support the &lt;canvas&gt; element</p>
+		</canvas>
+
+		<footer>&copy; 2013 Eric Johnson</footer>
+	</body>
+</html>

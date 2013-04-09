@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Basic | SimpleMesh</title>
+		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript">
+
+		// Initialize global vars
+		var canvas;
+		var ctx;
+		var WIDTH;
+		var HEIGHT;
+		var model;
+
+		// Wait for the canvas element to load
+		window.onload = function() {
+			setup();
+			window.setInterval(loop, 1000 / 60);
+		}
+
+		// Configure our environment
+		function setup() {
+			// Set the canvas, context, some useful constants, and translate
+			// the coordinate system to the center
+			canvas = document.getElementById('canvas');
+			WIDTH = canvas.width;
+			HEIGHT = canvas.height;
+			ctx = canvas.getContext('2d');
+			ctx.translate( WIDTH/2, HEIGHT/2 );
+
+			// Initialize our shape
+			model = new SimpleMesh({
+				context : ctx
+			});
+
+			// Load a basic model
+			model.loadArrays({
+				vertices : [
+					[  100, -75, -100 ], // Pyramid base
+					[ -100, -75, -100 ],
+					[ -100, -75,  100 ],
+					[  100, -75,  100 ],
+					[    0,  75,    0 ] // The top
+				],
+				edges : [
+					[ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 0 ],
+					[ 4, 0 ], [ 4, 1 ], [ 4, 2 ], [ 4, 3 ]
+
+				]
+			});
+		};
+
+		// Draw a frame
+		function loop() {
+			// Wipe the canvas for each frame
+			ctx.clearRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
+
+			// Rotate the model and display it
+			model.theta.z++;
+			model.theta.x++;
+			model.draw();
+		}
+		</script>
+		<style type="text/css">
+		* { font-family:sans-serif; color:#373737; }
+		body { background-color:#eeeeee; }
+		hgroup * { display:inline; font-size:32px; }
+		h2 { color:#cccccc; }
+		canvas{ background-color:#aaaaaa; }
+		footer { font-size:12px; color:#aaaaaa; margin:20px 0; }
+		</style>
+	</head>
+	<body>
+		<hgroup>
+			<h1>Basic</h1>
+			<h2>SimpleMesh</h2>
+		</hgroup>
+
+		<p>This examples represents the &quot;Hello World!&quot; equivalent of SimpleMesh. It loads a simple model based on arrays, animates the shape, and renders it.</p>
+
+		<canvas id="canvas" width="800" height="600">
+			<p>Sorry, your browser does not support the &lt;canvas&gt; element</p>
+		</canvas>
+
+		<footer>&copy; 2013 Eric Johnson</footer>
+	</body>
+</html>
