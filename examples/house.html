@@ -166,8 +166,9 @@
 		hgroup * { display:inline; font-size:32px; }
 		h2 { color:#cccccc; }
 		canvas{ background-color:#aaaaaa; cursor:pointer; }
-		table { border-collapse:collapse; border:1px solid #bbbbbb; }
-		td { font-family:monospace; text-align:right; background-color:#ffffff; padding:2px 5px; }
+		table { border-collapse:collapse; }
+		td { font-family:monospace; text-align:right; padding:2px 5px; }
+		td.brace { text-align:left; }
 		footer { font-size:12px; color:#aaaaaa; margin:20px 0; }
 		</style>
 	</head>
@@ -186,29 +187,40 @@
 
 		<table>
 			<tr>
+				<td class="brace" colspan="4">debug : {</td>
+			</tr>
+			<tr>
+				<td></td>
 				<td>follow</td>
 				<td>:</td>
 				<td id="follow">0</td>
 			</tr>
 			<tr>
+				<td></td>
 				<td>mouseX</td>
 				<td>:</td>
 				<td id="mouse-x">0</td>
 			</tr>
 			<tr>
+				<td></td>
 				<td>mouseY</td>
 				<td>:</td>
 				<td id="mouse-y">0</td>
 			</tr>
 			<tr>
+				<td></td>
 				<td>dX</td>
 				<td>:</td>
 				<td id="mouse-dx">0</td>
 			</tr>
 			<tr>
+				<td></td>
 				<td>dY</td>
 				<td>:</td>
 				<td id="mouse-dy">0</td>
+			</tr>
+			<tr>
+				<td class="brace" colspan="4">}</td>
 			</tr>
 		</table>
 
