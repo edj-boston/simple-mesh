@@ -52,15 +52,7 @@ var SimpleMesh = function( opts ) {
 	}
 
 	/* Helper function to extend objects */
-	/*this.extend = function( obj ) {
-		for( prop in obj ) {
-			if( this[prop] && this[prop].constructor && this[prop].constructor === Object ) {
-				this.extend( obj[prop] );
-			} else {
-				this[prop] = obj[prop];
-			}
-		}
-	};*/
+	// http://andrewdupont.net/2009/08/28/deep-extending-objects-in-javascript/
 	this.extend = function(destination, source) {
 		for(var property in source) {
 			if(source[property] && source[property].constructor && source[property].constructor === Object) {
