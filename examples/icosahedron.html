@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Icosahedron | SimpleMesh</title>
+		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript">
+
+		// Initialize global vars
+		var canvas;
+		var ctx;
+		var WIDTH;
+		var HEIGHT;
+		var bg;
+		var dodeca;
+		var spinY; // Control varible
+
+		// Wait for the canvas element to load
+		window.onload = function() {
+			setup();
+			// Default to 60fps for this example. In production, use
+			// requestAnimationFrame with callback so browser chooses framerate
+			window.setInterval(loop, 1000 / 60);
+		}
+
+		/* *
+		 * Configure our environment
+		 */
+		function setup() {
+
+			// Set the canvas, context, some useful constants, and translate
+			// the coordinate system to the center
+			canvas = document.getElementById('canvas');
+			WIDTH = canvas.width;
+			HEIGHT = canvas.height;
+			ctx = canvas.getContext('2d');
+			ctx.translate( WIDTH/2, HEIGHT/2 );
+
+			// Event listeners
+			canvas.onmouseover	= function() {
+				icosa.vertexVisibility	= true;
+				icosa.vertexLabelVisibility = true;
+			}
+			canvas.onmouseout	= function() {
+				icosa.vertexVisibility	= false;
+				icosa.vertexLabelVisibility = false;
+			}
+			canvas.onmousedown	= function(e) {
+				spinY = true;
+				icosa.faceVisibility = false;
+				e.preventDefault();
+			}
+			canvas.onmouseup	= function() {
+				spinY = false;
+				icosa.faceVisibility = true;
+				icosa.theta.y = 11.5;
+			}
+
+			// Setup a nice gradient background for the canvas
+			bg = ctx.createRadialGradient(0, 0, 0, 0, 0, 500);
+			bg.addColorStop(0, '#888888');
+			bg.addColorStop(1, '#373737');
+
+			// Initialize our shape
+			icosa = new SimpleMesh({
+				context : ctx,
+				edgeStyle : {
+					lineWidth : 10
+				}
+			});
+
+			icosa.loadObjects({
+				vertices : {
+					'wre8w' : { x: -0.263, y:  0.000, z:  0.425 },
+					'3peos' : { x:  0.263, y:  0.000, z:  0.425 },
+					'dewfe' : { x: -0.263, y:  0.000, z: -0.425 },
+					'ref9r' : { x:  0.263, y:  0.000, z: -0.425 },
+					'ty3gr' : { x:  0.000, y:  0.425, z:  0.263 },
+					'34ref' : { x:  0.000, y:  0.425, z: -0.263 },
+					't4thf' : { x:  0.000, y: -0.425, z:  0.263 },
+					'zdsgr' : { x:  0.000, y: -0.425, z: -0.263 },
+					'r4htb' : { x:  0.425, y:  0.263, z:  0.000 },
+					'ii88j' : { x: -0.425, y:  0.263, z:  0.000 },
+					'6hgbt' : { x:  0.425, y: -0.263, z:  0.000 },
+					'nrtyy' : { x: -0.425, y: -0.263, z:  0.000 }
+				},
+				edges : {
+					//'thq3t' : { a: 'wre8w', b: '3peos' },
+					//'ko956' : { a: '3peos', b: '6hgbt' },
+					'yrth4' : { a: 'dewfe', b: 'ref9r' },
+					//'erg33' : { a: 'ref9r', b: '6hgbt' },
+					//'wrsrv' : { a: '6hgbt', b: 'zdsgr' },
+					'etrer' : { a: 'zdsgr', b: 'nrtyy' },
+					//'p88rg' : { a: 't4thf', b: 'zdsgr' },
+					'nr433' : { a: 'zdsgr', b: 'dewfe' },
+					'qwe34' : { a: 'ref9r', b: 'zdsgr' },
+					'12def' : { a: 'dewfe', b: 'nrtyy' },
+					//'0edmf' : { a: 'nrtyy', b: 't4thf' },
+					//'hi98d' : { a: 't4thf', b: '6hgbt' },
+					//'l30e9' : { a: 'wre8w', b: 't4thf' },
+					//'qf09e' : { a: 't4thf', b: '3peos' },
+					//'eo98w' : { a: 'nrtyy', b: 'wre8w' },
+					'wr456' : { a: 'ii88j', b: 'nrtyy' },
+					//'awse3' : { a: 'ref9r', b: '6hgbt' },
+					//'bieiw' : { a: 'ii88j', b: 'wre8w' },
+					'xedry' : { a: 'dewfe', b: 'ii88j' },
+					'jiwoe' : { a: 'ref9r', b: '34ref' },
+					'7u4rf' : { a: '34ref', b: 'ii88j' },
+					'aew4r' : { a: 'dewfe', b: '34ref' },
+					//'viu54' : { a: 'ref9r', b: 'r4htb' },
+					//'hye3e' : { a: '6hgbt', b: 'r4htb' },
+					//'0ersd' : { a: '34ref', b: 'ty3gr' },
+					//'84jer' : { a: '34ref', b: 'r4htb' },
+					//'kei3e' : { a: '3peos', b: 'ty3gr' },
+					//'a345d' : { a: 'r4htb', b: 'ty3gr' },
+					//'h7524' : { a: 'ii88j', b: 'ty3gr' },
+					//'ghryd' : { a: 'wre8w', b: 'ty3gr' },
+					//'yte45' : { a: '3peos', b: 'r4htb' }
+				},
+				faces : {
+					'rweet' : {
+						vertices : [ 'zdsgr', 'nrtyy', 'ii88j', '34ref', 'ref9r' ],
+						fillStyle : function( origin ) {
+							var grad = ctx.createRadialGradient( origin.x, -origin.y, 0, origin.x, -origin.y, 150 );
+							grad.addColorStop(0, '#d5d500');
+							grad.addColorStop(1, '#52CE00');
+							return grad;
+						}
+					}
+				}
+			});
+			icosa.scale(350);
+			icosa.theta.y = 11.5;
+		};
+
+		/* *
+		 * Frame drawing procedure
+		 */
+		function loop() {
+
+			// Wipe the canvas with the gradient background
+			ctx.fillStyle = bg;
+			ctx.fillRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
+
+			icosa.theta.z++;
+			if( spinY ) icosa.theta.y++;
+			icosa.draw();
+		}
+		</script>
+		<style type="text/css">
+		* { font-family:sans-serif; color:#373737; }
+		body { background-color:#eeeeee; }
+		hgroup * { display:inline; font-size:32px; }
+		h2 { color:#cccccc; }
+		canvas{ background-color:#aaaaaa; cursor:pointer; }
+		footer { font-size:12px; color:#aaaaaa; margin:20px 0; }
+		</style>
+	</head>
+	<body>
+		<hgroup>
+			<h1>Icosahedron</h1>
+			<h2>SimpleMesh</h2>
+		</hgroup>
+
+		<p>Hover over the canvas to display the vertices. Press the mouse button to display vertex labels, rotate the shape and reveal it&#039;s dimensions.</p>
+
+		<canvas id="canvas" width="800" height="600">
+			<p>Sorry, your browser does not support the &lt;canvas&gt; element</p>
+		</canvas>
+
+		<footer>&copy; 2014 Eric Johnson</footer>
+	</body>
+</html>

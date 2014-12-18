@@ -8,6 +8,7 @@ Some special interactive flags are provided to easily control the visibility of 
 <a href="http://edj-boston.github.io/simple-mesh/examples/basic/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-basic.jpg" alt="Basic example" /></a>
 <a href="http://edj-boston.github.io/simple-mesh/examples/house/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-house.jpg" alt="House example" /></a>
 <a href="http://edj-boston.github.io/simple-mesh/examples/dodecahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-dodecahedron.jpg" alt="Dodecahedron example" /></a>
+<a href="http://edj-boston.github.io/simple-mesh/examples/icosahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-icosahedron.jpg" alt="Icosahedron example" /></a>
 
 Upcoming changes
 ----------------
