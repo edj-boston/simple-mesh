@@ -41,6 +41,7 @@ gulp.task('lint', () => {
     const globs = [
         'gulpfile.js',
         'src/*.js',
+        'lib/*.js',
         'test/*.js',
         '!node_modules/**'
     ];
