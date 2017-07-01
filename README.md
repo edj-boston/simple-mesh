@@ -1,5 +1,4 @@
-SimpleMesh 0.5
-==============
+# SimpleMesh
 
 SimpleMesh is a pseudo 3D context for the HTML5 canvas element. It allows you to load models from simple arrays or more complex objects. Models have 3 main componants: vertices, edges, and faces. Each of these can be styled. You can also scale, translate, and rotate the model in 3D.
 
@@ -10,8 +9,8 @@ Some special interactive flags are provided to easily control the visibility of 
 <a href="http://edj-boston.github.io/simple-mesh/examples/dodecahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-dodecahedron.jpg" alt="Dodecahedron example" /></a>
 <a href="http://edj-boston.github.io/simple-mesh/examples/icosahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-icosahedron.jpg" alt="Icosahedron example" /></a>
 
-Upcoming changes
-----------------
+
+## Upcoming changes
 
  * Override styles on a per-vertex, edge, or face basis
  * Polygonal rendering with z-Index calculation
@@ -19,84 +18,99 @@ Upcoming changes
  * Embedded mouse interaction methods
  * Collision detection
 
-Requirements
-------------
+
+## Requirements
 
 Just include the SimpleMesh JS in the head of your HTML document.
 
-	<script type="text/javascript" src="simple-mesh.js"></script>
+```html
+<script type="text/javascript" src="simple-mesh.js"></script>
+```
 
-Examples
---------
+
+## Examples
 
 ### Setup your animation
 
 Define some global namespaces for your animation.
 
-	var canvas; // The canvas element
-	var WIDTH;
-	var HEIGHT;
-	var ctx; // The canvas context
-	var model; // You model
+```js
+var canvas; // The canvas element
+var WIDTH;
+var HEIGHT;
+var ctx; // The canvas context
+var model; // You model
+```
 
 Attach a small procedure to the window.onload event. This will run a setup function once and a loop 60 times per second.
 
-	window.onload = function() {
-		setup();
-		window.setInterval(loop, 1000 / 60);
-	}
+```js
+window.onload = function() {
+	setup();
+	window.setInterval(loop, 1000 / 60);
+}
+```
 
 Do a few things in your setup() function that only need to be done once. Set the canvas, context, some useful constants, and translate the coordinate system to the center.
 
-	function setup() {
-		canvas = document.getElementById('canvas');
-		WIDTH = canvas.width;
-		HEIGHT = canvas.height;
-		ctx = canvas.getContext('2d');
-		ctx.translate( WIDTH/2, HEIGHT/2 );
+```js
+function setup() {
+	canvas = document.getElementById('canvas');
+	WIDTH = canvas.width;
+	HEIGHT = canvas.height;
+	ctx = canvas.getContext('2d');
+	ctx.translate( WIDTH/2, HEIGHT/2 );
 
-		// Instantiate a SimpleMesh object here
-	}
+	// Instantiate a SimpleMesh object here
+}
+```
 
 Use the requestAnimation frame object for a more sophisticated approach that allows the browser to select the framerate.
+
 
 ### Instantiate a SimpleMesh object
 
 Just call the constructor and pass a object with a canvas context.
 
-	model = new SimpleMesh({
-		context : ctx
-	});
+```js
+model = new SimpleMesh({
+	context : ctx
+});
+```
 
 
 ### Load a model
 
 Try using the loadArrays() method to create a simple model. Here's a pyramid from our basic example.
 
-	model.loadArrays({
-		vertices : [
-			[  100, -75, -100 ], // Pyramid base
-			[ -100, -75, -100 ],
-			[ -100, -75,  100 ],
-			[  100, -75,  100 ],
-			[    0,  75,    0 ] // The top
-		],
-		edges : [
-			[ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 0 ],
-			[ 4, 0 ], [ 4, 1 ], [ 4, 2 ], [ 4, 3 ]
-		]
-	});
+```js
+model.loadArrays({
+	vertices : [
+		[  100, -75, -100 ], // Pyramid base
+		[ -100, -75, -100 ],
+		[ -100, -75,  100 ],
+		[  100, -75,  100 ],
+		[    0,  75,    0 ] // The top
+	],
+	edges : [
+		[ 0, 1 ], [ 1, 2 ], [ 2, 3 ], [ 3, 0 ],
+		[ 4, 0 ], [ 4, 1 ], [ 4, 2 ], [ 4, 3 ]
+	]
+});
+```
+
 
 ### Draw a frame
-
 This procedure draws a frame and gets repeated by the setInterval() you declared earlier.
 
-	function loop() {
-		ctx.clearRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
-		model.theta.z++;
-		model.theta.x++;
-		model.draw();
-	}
+```js
+function loop() {
+	ctx.clearRect( WIDTH/-2, HEIGHT/-2, WIDTH, HEIGHT );
+	model.theta.z++;
+	model.theta.x++;
+	model.draw();
+}
+```
 
 Wipe the canvas, rotate the model, and draw it.
 
