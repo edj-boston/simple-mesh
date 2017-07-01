@@ -1,0 +1,29 @@
+{
+  "name": "simple-mesh",
+  "version": "1.0.0",
+  "description": "SimpleMesh is a pseudo 3D context for the HTML5 canvas element",
+  "main": "src/simple-mesh.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edj-boston/simple-mesh.git"
+  },
+  "keywords": [
+    "canvas",
+    "3d"
+  ],
+  "author": "Eric Johnson <edj.boston@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edj-boston/simple-mesh/issues"
+  },
+  "homepage": "https://github.com/edj-boston/simple-mesh#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  }
+}
