@@ -4,21 +4,6 @@ SimpleMesh is a pseudo 3D context for the HTML5 canvas element. It allows you to
 
 Some special interactive flags are provided to easily control the visibility of vertices, edges, and faces. A simple fog effect is available for black & white models that gives a sense of depth perception.
 
-<a href="http://edj-boston.github.io/simple-mesh/examples/basic/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-basic.jpg" alt="Basic example" /></a>
-<a href="http://edj-boston.github.io/simple-mesh/examples/house/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-house.jpg" alt="House example" /></a>
-<a href="http://edj-boston.github.io/simple-mesh/examples/dodecahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-dodecahedron.jpg" alt="Dodecahedron example" /></a>
-<a href="http://edj-boston.github.io/simple-mesh/examples/icosahedron/"><img width="250" height="250" src="http://edj-boston.github.io/simple-mesh/images/examples-icosahedron.jpg" alt="Icosahedron example" /></a>
-
-
-## Upcoming changes
-
- * Override styles on a per-vertex, edge, or face basis
- * Polygonal rendering with z-Index calculation
- * Polygon textures
- * Embedded mouse interaction methods
- * Collision detection
-
-
 ## Requirements
 
 Host the file (located in `/dist`) and include the SimpleMesh JS in the head of your HTML document.
@@ -26,7 +11,6 @@ Host the file (located in `/dist`) and include the SimpleMesh JS in the head of 
 ```html
 <script type="text/javascript" src="simple-mesh.js"></script>
 ```
-
 
 ## Examples
 
