@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Basic | SimpleMesh</title>
-		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript" src="../dist/simple-mesh.min.js"></script>
 		<script type="text/javascript">
 
 		// Initialize global vars
@@ -29,9 +29,7 @@
 			ctx.translate( WIDTH/2, HEIGHT/2 );
 
 			// Initialize our shape
-			model = new SimpleMesh({
-				context : ctx
-			});
+			model = new SimpleMesh(ctx);
 
 			// Load a basic model
 			model.loadArrays({

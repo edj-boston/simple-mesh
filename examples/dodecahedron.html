@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Dodecahedron | SimpleMesh</title>
-		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript" src="../dist/simple-mesh.min.js"></script>
 		<script type="text/javascript">
 
 		// Initialize global vars
@@ -61,8 +61,7 @@
 			bg.addColorStop(1, '#373737');
 
 			// Initialize our shape
-			dodeca = new SimpleMesh({
-				context : ctx,
+			dodeca = new SimpleMesh(ctx, {
 				edgeStyle : {
 					lineWidth : 10
 				}

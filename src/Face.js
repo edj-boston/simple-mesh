@@ -1,7 +1,10 @@
 'use strict';
 
 class Face { // eslint-disable-line no-unused-vars
-    construct (opts) {
+    constructor (opts) {
+        if (opts == undefined) throw new Error('You must pass an `opts` argument to the Face constructor');
+
+        this.id = opts.id;
         this.vertices = opts.vertices;
         this.fillStyle = opts.fillStyle;
     }
@@ -10,7 +13,7 @@ class Face { // eslint-disable-line no-unused-vars
         // Plot the shape
         let first = true;
         ctx.beginPath();
-        for (id in this.vertices) {
+        for (const id in this.vertices) {
             const vertex = this.vertices[id];
             if (first) {
                 ctx.moveTo(vertex.x, vertex.y);
@@ -29,4 +32,9 @@ class Face { // eslint-disable-line no-unused-vars
         }
         ctx.fill();
     }
+}
+
+// Export on server only
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = Face;
 }

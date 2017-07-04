@@ -1,8 +1,8 @@
 'use strict';
 
 class SimpleMesh { // eslint-disable-line no-unused-vars
-    construct (opts) {
-        if (!opts.hasOwnProperty('context')) throw 'A ctx property is required!';
+    constructor (context, opts) {
+        if (!context) throw new Error('A `context` argument is required');
 
         const defaults = {
             fog              : false,
@@ -36,27 +36,28 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
             }
         };
 
-        const obj = this.extend(defaults, opts);
-        for (prop in obj) {
-            this[prop] = obj[prop];
-        }
-
+        this.deepExtend(this, defaults, opts);
+        this.context = context; // Don't want this property subject to extension
         this.validate();
+
+        return this;
     }
 
-    /* Helper function to extend objects */
-    // http://andrewdupont.net/2009/08/28/deep-extending-objects-in-javascript/
-    extend (destination, source) {
-        for (property in source) {
-            if (source[property] && source[property].constructor && source[property].constructor === Object) {
-                destination[property] = destination[property] || {};
-                arguments.callee(destination[property], source[property]);
-            } else {
-                destination[property] = source[property];
+    deepExtend () {
+        for (let i = arguments.length - 1; i > 0; i--) {
+            const source = arguments[i];
+            const dest = arguments[i - 1];
+            for (const prop in source) {
+                if (typeof source[prop] == 'object' && !Array.isArray(source[prop])) {
+                    if (!dest.hasOwnProperty(prop)) dest[prop] = {};
+                    dest[prop] = this.deepExtend(dest[prop], source[prop]);
+                } else {
+                    dest[prop] = source[prop];
+                }
             }
         }
-        return destination;
-    }
+        return arguments[0];
+    };
 
     /* Validate properties */
     validate () {
@@ -81,20 +82,22 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
     loadObjects (opts) {
         // Vertices
         if (opts.hasOwnProperty('vertices')) {
-            for (id in opts.vertices) {
+            for (const id in opts.vertices) {
+                opts.vertices[id].id = id;
                 this.vertices[id] = new Vertex(opts.vertices[id]);
             }
         }
 
         // Edges
         if (opts.hasOwnProperty('edges')) {
-            for (id in opts.edges) {
+            for (const id in opts.edges) {
                 const edge = opts.edges[id];
 
                 // Make certain the vertices are a real
                 if (this.vertices[edge.a] == 'undefined') throw 'A is not a vertex';
                 if (this.vertices[edge.b] == 'undefined') throw 'B is not a vertex';
 
+                edge.id = id;
                 edge.a = this.vertices[edge.a];
                 edge.b = this.vertices[edge.b];
 
@@ -105,13 +108,13 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
         // Faces
         if (opts.hasOwnProperty('faces')) {
-            for (fId in opts.faces) {
-                const face = opts.faces[fId];
-                for (vId in face.vertices) {
-                    const vertex = face.vertices[vId];
-                    face.vertices[vId] = this.vertices[vertex];
+            for (const faceId in opts.faces) {
+                const face = opts.faces[faceId];
+                for (const vertexId in face.vertices) {
+                    const vertex = face.vertices[vertexId];
+                    face.vertices[vertexId] = this.vertices[vertex];
                 }
-                this.faces[fId] = new Face(face);
+                this.faces[faceId] = new Face(face);
             }
         }
     };
@@ -122,16 +125,18 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         const verticeOrder = []; // Store the vertex order for loading edges
 
         // Loop over the array of vertices
-        for (i in obj.vertices) {
+        for (const i in obj.vertices) {
             // Set the vertex to our container obj with a unique id
             // and if successful, push into our stored order
+            let id = null;
             do {
-                let id = this.generateUniqueId();
+                id = this.generateUniqueId();
                 if (this.vertices.hasOwnProperty(id)) {
                     console.log(`Id "${id}" is already a vertex! Generating a new id...`);
                     id = null;
                 } else {
                     this.vertices[id] = new Vertex({
+                        id,
                         x      : obj.vertices[i][0],
                         y      : obj.vertices[i][1],
                         z      : obj.vertices[i][2],
@@ -143,20 +148,22 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         }
 
         // Loop over the array of edges (if set)
-        for (i in obj.edges) {
+        for (const i in obj.edges) {
             const aI = obj.edges[i][0];
             const bI = obj.edges[i][1];
             const a = verticeOrder[aI];
             const b = verticeOrder[bI];
 
             // Make an edge
+            let id = null;
             do {
-                let id = this.generateUniqueId();
+                id = this.generateUniqueId();
                 if (this.edges.hasOwnProperty(id)) {
                     console.log(`Id "${id}" is already an edge! Generating a new id...`);
                     id = null;
                 } else {
                     this.edges[id] = new Edge({
+                        id,
                         a      : this.vertices[a],
                         b      : this.vertices[b],
                         parent : this
@@ -172,7 +179,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         if (typeof factor != 'number') throw `Factor "${factor}" must be numeric`;
 
         // Loop over the vertices and multiply
-        for (i in this.vertices) {
+        for (const i in this.vertices) {
             const vertex = this.vertices[i];
             vertex.x = vertex.oX = vertex.x * factor;
             vertex.y = vertex.oY = vertex.y * factor;
@@ -182,7 +189,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
     /* translate */
     translate (origin) {
-        for (id in this.vertices) {
+        for (const id in this.vertices) {
             const vertex = this.vertices[id];
             vertex.x += origin.x;
             vertex.y += origin.y;
@@ -193,7 +200,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
     /* Reset the rotation angles */
     reset () {
-        for (id in this.vertices) {
+        for (const id in this.vertices) {
             const vertex = this.vertices[id];
             vertex.x = vertex.oX;
             vertex.y = vertex.oY;
@@ -213,21 +220,21 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
         // Draw faces
         if (this.faceVisibility) {
-            for (id in this.faces) {
+            for (const id in this.faces) {
                 this.faces[id].draw(this.context, this.faceStyle, this.origin);
             }
         }
 
         // Draw edges
         if (this.edgeVisibility) {
-            for (id in this.edges) {
+            for (const id in this.edges) {
                 this.edges[id].draw(this.context, this.edgeStyle, this.fog);
             }
         }
 
         // Draw vertices
         if (this.vertexVisibility) {
-            for (id in this.vertices) {
+            for (const id in this.vertices) {
                 this.vertices[id].draw(this.context, this.vertexStyle);
             }
         }
@@ -258,7 +265,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         // Perform a matrix rotation
         const radians = Math.PI / 180 * theta;
 
-        for (id in this.vertices) {
+        for (const id in this.vertices) {
             const vertex = this.vertices[id];
             // Buffer the values before assigning
             const tempA = ((vertex[a] * Math.cos(radians)) - (vertex[b] * Math.sin(radians)));
@@ -273,10 +280,15 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         let id = '';
         const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-        for (i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             id += chars.charAt(Math.floor(Math.random() * chars.length));
         }
 
         return id;
     };
+}
+
+// Export on server only
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = SimpleMesh;
 }

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>House | SimpleMesh</title>
-		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript" src="../dist/simple-mesh.min.js"></script>
 		<script type="text/javascript">
 
 		// Initialize global vars
@@ -73,8 +73,7 @@
 			bg.addColorStop(1, '#888888');
 
 			// Initialize our shape
-			house = new SimpleMesh({
-				context : ctx,
+			house = new SimpleMesh(ctx, {
 				fog : true,
 				vertexStyle : {
 					fillStyle : '#88ff88',
@@ -117,7 +116,7 @@
 					[23, 24], [24, 25], [19, 23], [20, 24]
 				]
 			});
-			
+
 			// Fetch some table elements for debug output
 			debug.follow = document.getElementById('follow');
 			debug.mouseX = document.getElementById('mouse-x');

@@ -1,12 +1,14 @@
 'use strict';
 
 class Vertex { // eslint-disable-line no-unused-vars
-    construct (opts) {
-        // Validate
-        if (opts.hasOwnProperty('x') == false) throw 'X is required';
-        if (opts.hasOwnProperty('y') == false) throw 'Y is required';
-        if (opts.hasOwnProperty('z') == false) throw 'Z is required';
+    constructor (opts) {
+        if (opts == undefined) throw new Error('You must pass an `opts` argument to the Vertex constructor');
+        if (opts.hasOwnProperty('id') == false) throw new Error('`id` is required');
+        if (opts.hasOwnProperty('x') == false) throw new Error('`x` is required');
+        if (opts.hasOwnProperty('y') == false) throw new Error('`y` is required');
+        if (opts.hasOwnProperty('z') == false) throw new Error('`z` is required');
 
+        this.id = opts.id;
         this.oX = opts.x;
         this.oY = opts.y;
         this.oZ = opts.z;
@@ -32,9 +34,14 @@ class Vertex { // eslint-disable-line no-unused-vars
             const y = this.y - style.labelOffset.y;
 
             ctx.lineWidth = style.labelLineWidth;
-            if (ctx.strokeStyle = style.labelStrokeStyle) ctx.strokeText(id, x, y);
+            if (ctx.strokeStyle = style.labelStrokeStyle) ctx.strokeText(this.id, x, y);
 
-            if (ctx.fillStyle = style.labelFillStyle) ctx.fillText(id, x, y);
+            if (ctx.fillStyle = style.labelFillStyle) ctx.fillText(this.id, x, y);
         }
     }
+}
+
+// Export on server only
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = Vertex;
 }

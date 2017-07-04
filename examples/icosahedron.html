@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Icosahedron | SimpleMesh</title>
-		<script type="text/javascript" src="../simple-mesh.js"></script>
+		<script type="text/javascript" src="../dist/simple-mesh.min.js"></script>
 		<script type="text/javascript">
 
 		// Initialize global vars
@@ -61,8 +61,7 @@
 			bg.addColorStop(1, '#373737');
 
 			// Initialize our shape
-			icosa = new SimpleMesh({
-				context : ctx,
+			icosa = new SimpleMesh(ctx, {
 				edgeStyle : {
 					lineWidth : 10
 				}
@@ -84,37 +83,16 @@
 					'nrtyy' : { x: -0.425, y: -0.263, z:  0.000 }
 				},
 				edges : {
-					//'thq3t' : { a: 'wre8w', b: '3peos' },
-					//'ko956' : { a: '3peos', b: '6hgbt' },
 					'yrth4' : { a: 'dewfe', b: 'ref9r' },
-					//'erg33' : { a: 'ref9r', b: '6hgbt' },
-					//'wrsrv' : { a: '6hgbt', b: 'zdsgr' },
 					'etrer' : { a: 'zdsgr', b: 'nrtyy' },
-					//'p88rg' : { a: 't4thf', b: 'zdsgr' },
 					'nr433' : { a: 'zdsgr', b: 'dewfe' },
 					'qwe34' : { a: 'ref9r', b: 'zdsgr' },
 					'12def' : { a: 'dewfe', b: 'nrtyy' },
-					//'0edmf' : { a: 'nrtyy', b: 't4thf' },
-					//'hi98d' : { a: 't4thf', b: '6hgbt' },
-					//'l30e9' : { a: 'wre8w', b: 't4thf' },
-					//'qf09e' : { a: 't4thf', b: '3peos' },
-					//'eo98w' : { a: 'nrtyy', b: 'wre8w' },
 					'wr456' : { a: 'ii88j', b: 'nrtyy' },
-					//'awse3' : { a: 'ref9r', b: '6hgbt' },
-					//'bieiw' : { a: 'ii88j', b: 'wre8w' },
 					'xedry' : { a: 'dewfe', b: 'ii88j' },
 					'jiwoe' : { a: 'ref9r', b: '34ref' },
 					'7u4rf' : { a: '34ref', b: 'ii88j' },
-					'aew4r' : { a: 'dewfe', b: '34ref' },
-					//'viu54' : { a: 'ref9r', b: 'r4htb' },
-					//'hye3e' : { a: '6hgbt', b: 'r4htb' },
-					//'0ersd' : { a: '34ref', b: 'ty3gr' },
-					//'84jer' : { a: '34ref', b: 'r4htb' },
-					//'kei3e' : { a: '3peos', b: 'ty3gr' },
-					//'a345d' : { a: 'r4htb', b: 'ty3gr' },
-					//'h7524' : { a: 'ii88j', b: 'ty3gr' },
-					//'ghryd' : { a: 'wre8w', b: 'ty3gr' },
-					//'yte45' : { a: '3peos', b: 'r4htb' }
+					'aew4r' : { a: 'dewfe', b: '34ref' }
 				},
 				faces : {
 					'rweet' : {

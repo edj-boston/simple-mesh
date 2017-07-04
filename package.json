@@ -34,12 +34,12 @@
     "gulp-david": "^1.0.1",
     "gulp-depcheck": "^1.2.0",
     "gulp-eslint": "^4.0.0",
+    "gulp-istanbul": "^1.1.2",
     "gulp-load-plugins": "^1.5.0",
-    "gulp-mocha": "^4.3.1",
+    "gulp-mocha": "3.0.1",
     "gulp-sequence": "^0.4.6",
     "gulp-sourcemaps": "^2.6.0",
     "gulp-tap": "^1.0.1",
-    "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "moment": "^2.18.1"
   }

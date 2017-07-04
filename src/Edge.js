@@ -1,18 +1,21 @@
 'use strict';
 
 class Edge { // eslint-disable-line no-unused-vars
-    construct (opts) {
+    constructor (opts) {
+        if (opts == undefined) throw new Error('You must pass an `opts` argument to the Edge constructor');
+        if (!opts.id) throw new Error('You must pass an `id` option to the Edge constructor');
+        if (!opts.a) throw new Error('You must pass an `a` option to the Edge constructor');
+        if (!opts.b) throw new Error('You must pass an `b` option to the Edge constructor');
+
+        this.id = opts.id;
         this.a = opts.a;
         this.b = opts.b;
     }
 
     draw (ctx, style, fog) {
-        // Plot the line
         ctx.beginPath();
         ctx.moveTo(this.a.x, this.a.y);
         ctx.lineTo(this.b.x, this.b.y);
-        ctx.moveTo(0, 0); // Hack so lineCap works
-        ctx.closePath();
 
         ctx.lineCap = style.lineCap;
         ctx.lineWidth = style.lineWidth;
@@ -36,4 +39,9 @@ class Edge { // eslint-disable-line no-unused-vars
 
         return `rgb(${r}, ${g}, ${b})`;
     }
+}
+
+// Export on server only
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = Edge;
 }

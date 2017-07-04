@@ -21,7 +21,7 @@ Some special interactive flags are provided to easily control the visibility of 
 
 ## Requirements
 
-Just include the SimpleMesh JS in the head of your HTML document.
+Host the file (located in `/dist`) and include the SimpleMesh JS in the head of your HTML document.
 
 ```html
 <script type="text/javascript" src="simple-mesh.js"></script>
@@ -73,9 +73,7 @@ Use the requestAnimation frame object for a more sophisticated approach that all
 Just call the constructor and pass a object with a canvas context.
 
 ```js
-model = new SimpleMesh({
-	context : ctx
-});
+model = new SimpleMesh(ctx);
 ```
 
 

@@ -1,11 +1,11 @@
 'use strict';
 
-const del      = require('del'),
-    depcheck   = require('depcheck'),
-    g          = require('gulp-load-plugins')(),
-    gulp       = require('gulp'),
-    license    = require('./lib/license'),
-    rules      = require('@edjboston/eslint-rules');
+const del    = require('del'),
+    depcheck = require('depcheck'),
+    g        = require('gulp-load-plugins')(),
+    gulp     = require('gulp'),
+    license  = require('./lib/license'),
+    rules    = require('@edjboston/eslint-rules');
 
 
 // Clean the build dir
@@ -19,18 +19,18 @@ gulp.task('clean', () => {
 
 // JavaScript
 gulp.task('scripts', () => {
-    return gulp.src('src/js/*.js')
+    return gulp.src('src/*.js')
         .pipe(g.sourcemaps.init({ loadMaps : true }))
-        .pipe(g.babel({
-            presets  : [ 'es2015' ],
-            comments : true,
-            compact  : false
-        }))
         .pipe(g.concat('simple-mesh.min.js'))
         .pipe(g.tap(file => {
             file.contents = Buffer.concat([ new Buffer(license), file.contents ]);
         }))
-        .pipe(g.uglify({ output : { comments : /^!/ } }))
+        .pipe(g.babel({
+            presets  : [ 'es2015' ],
+            comments : true,
+            compact  : true,
+            minified : true
+        }))
         .pipe(g.sourcemaps.write('.'))
         .pipe(gulp.dest('dist'));
 });
@@ -56,11 +56,23 @@ gulp.task('lint', () => {
 });
 
 
+// Instrument the code
+gulp.task('cover', () => {
+    return gulp.src('src/*.js')
+        .pipe(g.istanbul())
+        .pipe(g.istanbul.hookRequire());
+});
+
+
 // Run tests and product coverage
 gulp.task('test', () => {
     return gulp.src('test/*.js')
         .pipe(g.mocha({
             require : [ 'should' ]
+        }))
+        .pipe(g.istanbul.writeReports())
+        .pipe(g.istanbul.enforceThresholds({
+            thresholds : { global : 5 }
         }));
 });
 
@@ -75,8 +87,9 @@ gulp.task('david', () => {
 // Watch certain files
 gulp.task('watch', () => {
     const globs = [
-        'src/*',
-        'test/*'
+        'src/*.js',
+        'test/*.js',
+        'lib/.js'
     ];
 
     gulp.watch(globs, [ 'build' ])
@@ -90,9 +103,10 @@ gulp.task('watch', () => {
 gulp.task('build', done => {
     g.sequence(
         'clean',
+        'lint',
         'scripts',
-        'test',
-        'lint'
+        'cover',
+        'test'
     )(done);
 });
 
@@ -115,8 +129,7 @@ gulp.task('depcheck', g.depcheck({
 // What to do when you run `$ gulp`
 gulp.task('default', done => {
     g.sequence(
-        'david',
-        // 'depcheck',
+        [ 'david', 'depcheck' ],
         'build',
         'watch'
     )(done);
