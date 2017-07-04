@@ -1,4 +1,4 @@
-# SimpleMesh
+# SimpleMesh [![Build Status](https://travis-ci.org/edj-boston/simple-mesh.svg?branch=master)](https://travis-ci.org/edj-boston/simple-mesh) [![Coverage Status](https://coveralls.io/repos/github/edj-boston/simple-mesh/badge.svg?branch=master)](https://coveralls.io/github/edj-boston/simple-mesh?branch=master)
 
 SimpleMesh is a pseudo 3D context for the HTML5 canvas element. It allows you to load models from simple arrays or more complex objects. Models have 3 main componants: vertices, edges, and faces. Each of these can be styled. You can also scale, translate, and rotate the model in 3D.
 
