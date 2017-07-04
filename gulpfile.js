@@ -99,6 +99,19 @@ gulp.task('watch', () => {
 });
 
 
+// Push coverage stats to coveralls
+gulp.task('coveralls', () => {
+    return gulp.src('coverage/lcov.info')
+        .pipe(g.coveralls());
+});
+
+
+// Macro for Travis
+gulp.task('travis', done => {
+    g.sequence('build', 'coveralls')(done);
+});
+
+
 // Build Macro
 gulp.task('build', done => {
     g.sequence(
