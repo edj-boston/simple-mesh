@@ -132,11 +132,7 @@ gulp.task('build', done => {
 // Examine package.json for unused deps (except for frontend and gulp)
 gulp.task('depcheck', g.depcheck({
     ignoreMatches : [
-        'babel-preset-es2015',
-        'bootstrap',
-        'font-awesome',
-        'jquery',
-        'npm-font-open-sans'
+        'babel-preset-es2015'
     ],
     specials : [
         depcheck.special['gulp-load-plugins']
