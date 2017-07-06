@@ -19,7 +19,7 @@ class Edge { // eslint-disable-line no-unused-vars
 
         ctx.lineCap = style.lineCap;
         ctx.lineWidth = style.lineWidth;
-        ctx.strokeStyle = style.strokeStyle
+        ctx.strokeStyle = style.strokeStyle;
         ctx.stroke();
 
         // Calculate the z-index fog

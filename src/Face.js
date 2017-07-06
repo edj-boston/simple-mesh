@@ -3,10 +3,12 @@
 class Face { // eslint-disable-line no-unused-vars
     constructor (opts) {
         if (opts == undefined) throw new Error('You must pass an `opts` argument to the Face constructor');
+        if (!opts.id) throw new Error('You must pass an `id` option to the Face constructor');
+        if (!opts.vertices) throw new Error('You must pass a `vertices` option to the Face constructor');
 
         this.id = opts.id;
         this.vertices = opts.vertices;
-        this.fillStyle = opts.fillStyle;
+        if (opts.fillStyle) this.fillStyle = opts.fillStyle;
     }
 
     draw (ctx, style, origin) {

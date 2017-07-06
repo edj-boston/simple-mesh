@@ -110,6 +110,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
         if (opts.hasOwnProperty('faces')) {
             for (const faceId in opts.faces) {
                 const face = opts.faces[faceId];
+                face.id = faceId;
                 for (const vertexId in face.vertices) {
                     const vertex = face.vertices[vertexId];
                     face.vertices[vertexId] = this.vertices[vertex];
