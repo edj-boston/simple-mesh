@@ -58,7 +58,12 @@ gulp.task('lint', () => {
 
 // Instrument the code
 gulp.task('cover', () => {
-    return gulp.src('src/*.js')
+    const globs = [
+        'src/*.js',
+        'lib/*.js'
+    ];
+
+    return gulp.src(globs)
         .pipe(g.istanbul())
         .pipe(g.istanbul.hookRequire());
 });
@@ -89,7 +94,7 @@ gulp.task('watch', () => {
     const globs = [
         'src/*.js',
         'test/*.js',
-        'lib/.js'
+        'lib/*.js'
     ];
 
     gulp.watch(globs, [ 'build' ])
