@@ -72,7 +72,7 @@ describe('Vertex', () => {
             ctx.callStack.should.eql([ 'beginPath', 'arc', 'closePath', 'fill', 'stroke' ]);
         });
 
-        it('should ', () => {
+        it('should draw labels', () => {
             const vertex = new Vertex({
                 id : 'abcde',
                 x  : 0,

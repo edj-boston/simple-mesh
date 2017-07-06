@@ -3,6 +3,7 @@
 class SimpleMesh { // eslint-disable-line no-unused-vars
     constructor (context, opts) {
         if (!context) throw new Error('A `context` argument is required');
+        if (!opts) throw new Error('A `opts` argument is required');
 
         const defaults = {
             fog              : false,
@@ -61,21 +62,21 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
     /* Validate properties */
     validate () {
-        if (typeof this.fog != 'boolean') throw 'The "fog" property must be boolean';
-        if (typeof this.origin != 'object') throw 'The "origin" property must be an object';
-        if (typeof this.origin.x != 'number') throw 'The "origin.x" property must be a number';
-        if (typeof this.origin.y != 'number') throw 'The "origin.y" property must be a number';
-        if (typeof this.origin.z != 'number') throw 'The "origin.z" property must be a number';
-        if (typeof this.theta != 'object') throw 'The "theta" property must be an object';
-        if (typeof this.theta.x != 'number') throw 'The "theta.x" property must be a number';
-        if (typeof this.theta.y != 'number') throw 'The "theta.y" property must be a number';
-        if (typeof this.theta.z != 'number') throw 'The "theta.z" property must be a number';
-        if (typeof this.vertexVisibility != 'boolean') throw 'The "vertexVisibility" property must be boolean';
-        if (typeof this.vertexStyle != 'object') throw 'The "vertexStyle" property must be an object';
-        if (typeof this.edgeVisibility != 'boolean') throw 'The "edgeVisibility" property must be boolean';
-        if (typeof this.edgeStyle != 'object') throw 'The "edgeStyle" property must be an object';
-        if (typeof this.faceVisibility != 'boolean') throw 'The "faceVisibility" property must be boolean';
-        if (typeof this.faceStyle != 'object') throw 'The "faceStyle" property must be an object';
+        if (typeof this.fog != 'boolean') throw new Error('The `fog` property must be boolean');
+        if (typeof this.origin != 'object') throw new Error('The `origin` property must be an object');
+        if (typeof this.origin.x != 'number') throw new Error('The `origin.x` property must be a number');
+        if (typeof this.origin.y != 'number') throw new Error('The `origin.y` property must be a number');
+        if (typeof this.origin.z != 'number') throw new Error('The `origin.z` property must be a number');
+        if (typeof this.theta != 'object') throw new Error('The `theta` property must be an object');
+        if (typeof this.theta.x != 'number') throw new Error('The `theta.x` property must be a number');
+        if (typeof this.theta.y != 'number') throw new Error('The `theta.y` property must be a number');
+        if (typeof this.theta.z != 'number') throw new Error('The `theta.z` property must be a number');
+        if (typeof this.vertexVisibility != 'boolean') throw new Error('The `vertexVisibility` property must be boolean');
+        if (typeof this.vertexStyle != 'object') throw new Error('The `vertexStyle` property must be an object');
+        if (typeof this.edgeVisibility != 'boolean') throw new Error('The `edgeVisibility` property must be boolean');
+        if (typeof this.edgeStyle != 'object') throw new Error('The `edgeStyle` property must be an object');
+        if (typeof this.faceVisibility != 'boolean') throw new Error('The `faceVisibility` property must be boolean');
+        if (typeof this.faceStyle != 'object') throw new Error('The `faceStyle` property must be an object');
     }
 
     /* Load objects */
@@ -94,8 +95,8 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
                 const edge = opts.edges[id];
 
                 // Make certain the vertices are a real
-                if (this.vertices[edge.a] == 'undefined') throw 'A is not a vertex';
-                if (this.vertices[edge.b] == 'undefined') throw 'B is not a vertex';
+                if (this.vertices[edge.a] == 'undefined') throw new Error('A is not a vertex');
+                if (this.vertices[edge.b] == 'undefined') throw new Error('B is not a vertex');
 
                 edge.id = id;
                 edge.a = this.vertices[edge.a];
@@ -122,7 +123,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
 
     /* Load simple arrays */
     loadArrays (obj) {
-        if (obj.vertices == null) throw 'An array of vertices must is required'; // Require vertices
+        if (obj.vertices == null) throw new Error('An array of vertices must is required');
         const verticeOrder = []; // Store the vertex order for loading edges
 
         // Loop over the array of vertices
@@ -177,7 +178,7 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
     /* Expand or contract a mesh based on a numeric factor */
     scale (factor) {
         // Require a numeric factor
-        if (typeof factor != 'number') throw `Factor "${factor}" must be numeric`;
+        if (typeof factor != 'number') throw new Error(`Factor "${factor}" must be numeric`);
 
         // Loop over the vertices and multiply
         for (const i in this.vertices) {
@@ -259,9 +260,9 @@ class SimpleMesh { // eslint-disable-line no-unused-vars
     rotate (a, b, theta) {
         // Validate
         const axes = [ 'x', 'y', 'z' ];
-        if (axes.indexOf(a) < 0) throw 'Axis A must be one of x, y, or z';
-        if (axes.indexOf(b) < 0) throw 'Axis B must be one of x, y, or z';
-        if (typeof theta != 'number') throw 'Theta must be numeric';
+        if (axes.indexOf(a) < 0) throw new Error('Axis A must be one of x, y, or z');
+        if (axes.indexOf(b) < 0) throw new Error('Axis B must be one of x, y, or z');
+        if (typeof theta != 'number') throw new Error('Theta must be numeric');
 
         // Perform a matrix rotation
         const radians = Math.PI / 180 * theta;
