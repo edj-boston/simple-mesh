@@ -30,7 +30,7 @@ describe('Face', () => {
             vertices : { foo : 'bar' }
         });
         face.id.should.equal('abcde');
-        face.vertices.should.deepEqual({ foo : 'bar' });
+        face.vertices.should.eql({ foo : 'bar' });
     });
 
     it('should convert the optional `fillStyle` option into a property', () => {
@@ -61,7 +61,7 @@ describe('Face', () => {
                 lineWidth   : 2,
                 strokeStyle : '#ffffff'
             }, false);
-            ctx.functionsCalled.should.containEql('beginPath', 'moveTo', 'lineTo', 'closePath', 'fill');
+            ctx.callStack.should.eql([ 'beginPath', 'moveTo', 'lineTo', 'closePath', 'fill' ]);
         });
 
         it('should use style.fillStyle if the object does not have it\'s own', () => {
@@ -79,7 +79,7 @@ describe('Face', () => {
                 strokeStyle : '#ffffff',
                 fillStyle   : '#000000'
             }, false);
-            ctx.functionsCalled.should.containEql('beginPath', 'moveTo', 'lineTo', 'closePath', 'fill');
+            ctx.callStack.should.eql([ 'beginPath', 'moveTo', 'lineTo', 'closePath', 'fill' ]);
         });
     });
 });

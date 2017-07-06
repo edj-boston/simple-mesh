@@ -57,7 +57,7 @@ describe('Edge', () => {
                 lineWidth   : 2,
                 strokeStyle : '#ffffff'
             }, false);
-            ctx.functionsCalled.should.containEql('beginPath', 'moveTo', 'lineTo', 'stroke');
+            ctx.callStack.should.eql([ 'beginPath', 'moveTo', 'lineTo', 'stroke' ]);
         });
 
         it('should call additional methods for fog', () => {
@@ -72,7 +72,7 @@ describe('Edge', () => {
                 lineWidth   : 2,
                 strokeStyle : '#ffffff'
             }, true);
-            ctx.functionsCalled.should.containEql('beginPath', 'moveTo', 'lineTo', 'stroke', 'createLinearGradient');
+            ctx.callStack.should.eql([ 'beginPath', 'moveTo', 'lineTo', 'stroke', 'createLinearGradient', 'stroke' ]);
         });
     });
 

@@ -3,10 +3,10 @@
 class Vertex { // eslint-disable-line no-unused-vars
     constructor (opts) {
         if (opts == undefined) throw new Error('You must pass an `opts` argument to the Vertex constructor');
-        if (opts.hasOwnProperty('id') == false) throw new Error('`id` is required');
-        if (opts.hasOwnProperty('x') == false) throw new Error('`x` is required');
-        if (opts.hasOwnProperty('y') == false) throw new Error('`y` is required');
-        if (opts.hasOwnProperty('z') == false) throw new Error('`z` is required');
+        if (opts.hasOwnProperty('id') == false) throw new Error('You must pass an `id` option to the Vertex constructor');
+        if (opts.hasOwnProperty('x') == false) throw new Error('You must pass an `x` option to the Vertex constructor');
+        if (opts.hasOwnProperty('y') == false) throw new Error('You must pass a `y` option to the Vertex constructor');
+        if (opts.hasOwnProperty('z') == false) throw new Error('You must pass a `z` option to the Vertex constructor');
 
         this.id = opts.id;
         this.oX = opts.x;
@@ -25,8 +25,10 @@ class Vertex { // eslint-disable-line no-unused-vars
 
         // Style the circle
         ctx.lineWidth = style.lineWidth;
-        if (ctx.fillStyle = style.fillStyle) ctx.fill();
-        if (ctx.strokeStyle = style.strokeStyle) ctx.stroke();
+        ctx.fillStyle = style.fillStyle;
+        ctx.strokeStyle = style.strokeStyle;
+        ctx.fill();
+        ctx.stroke();
 
         // Draw the label
         if (style.labelVisibility) {
@@ -34,9 +36,10 @@ class Vertex { // eslint-disable-line no-unused-vars
             const y = this.y - style.labelOffset.y;
 
             ctx.lineWidth = style.labelLineWidth;
-            if (ctx.strokeStyle = style.labelStrokeStyle) ctx.strokeText(this.id, x, y);
-
-            if (ctx.fillStyle = style.labelFillStyle) ctx.fillText(this.id, x, y);
+            ctx.strokeStyle = style.labelStrokeStyle;
+            ctx.fillStyle = style.labelFillStyle;
+            ctx.strokeText(this.id, x, y);
+            ctx.fillText(this.id, x, y);
         }
     }
 }
