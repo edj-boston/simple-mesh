@@ -118,6 +118,124 @@ describe('SimpleMesh', () => {
         });
     });
 
+    describe('rotateX()', () => {
+        it('should do correct matrix math', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'abcde' : { id : 'abcde', x : 1, y : 1, z : 1 }
+                }
+            });
+            mesh.rotateX(100);
+            mesh.vertices['abcde'].x.should.eql(1);
+            mesh.vertices['abcde'].y.should.eql(-1.1584559306791382);
+            mesh.vertices['abcde'].z.should.eql(0.8111595753452777);
+        });
+    });
+
+    describe('rotateY()', () => {
+        it('should do correct matrix math', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'fghij' : { id : 'fghij', x : 2, y : 2, z : 2 }
+                }
+            });
+            mesh.rotateY(100);
+            mesh.vertices['fghij'].x.should.eql(-2.3169118613582764);
+            mesh.vertices['fghij'].y.should.eql(2);
+            mesh.vertices['fghij'].z.should.eql(1.6223191506905554);
+        });
+    });
+
+    describe('rotateX()', () => {
+        it('should do correct matrix math', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'klmno' : { id : 'klmno', x : 3, y : 3, z : 3 }
+                }
+            });
+            mesh.rotateZ(100);
+            mesh.vertices['klmno'].x.should.eql(-3.4753677920374146);
+            mesh.vertices['klmno'].y.should.eql(2.4334787260358333);
+            mesh.vertices['klmno'].z.should.eql(3);
+        });
+    });
+
+    describe('reset()', () => {
+        it('should return the `x`, `y`, and `z` properties of each vertex to their original state', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'abcde' : { id : 'abcde', x : 3, y : 3, z : 3, oX : 3, oY : 3, oZ : 3 }
+                }
+            });
+            mesh.rotateX(100);
+            mesh.vertices['abcde'].x.should.eql(3);
+            mesh.vertices['abcde'].y.should.eql(-3.4753677920374146);
+            mesh.vertices['abcde'].z.should.eql(2.4334787260358333);
+            mesh.reset();
+            mesh.vertices['abcde'].x.should.eql(3);
+            mesh.vertices['abcde'].y.should.eql(3);
+            mesh.vertices['abcde'].z.should.eql(3);
+        });
+    });
+
+    describe('scale()', () => {
+        it('should alter the `x`, `y`, and `z` properties of each vertex', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'abcde' : { id : 'abcde', x : 3, y : 3, z : 3 }
+                }
+            });
+            const vertex = mesh.vertices['abcde'];
+            vertex.x.should.eql(3);
+            vertex.y.should.eql(3);
+            vertex.z.should.eql(3);
+            mesh.scale(100);
+            vertex.x.should.eql(300);
+            vertex.y.should.eql(300);
+            vertex.z.should.eql(300);
+        });
+    });
+
+    describe('translate()', () => {
+        it('should alter the `x`, `y`, and `z` properties of each vertex', () => {
+            const mesh = new SimpleMesh(new Ctx, {
+                vertices : {
+                    'abcde' : { id : 'abcde', x : 3, y : 3, z : 3 }
+                }
+            });
+            const vertex = mesh.vertices['abcde'];
+            vertex.x.should.eql(3);
+            vertex.y.should.eql(3);
+            vertex.z.should.eql(3);
+            mesh.translate({ x : 25, y : 25, z : 25 });
+            vertex.x.should.eql(28);
+            vertex.y.should.eql(-28);
+            vertex.z.should.eql(28);
+        });
+    });
+
+    describe('rotate()', () => {
+        const mesh = new SimpleMesh(new Ctx, {
+            vertices : {
+                'pqrst' : { id : 'pqrst', x : 3, y : 3, z : 3 }
+            }
+        });
+
+        it('should validate the arguments', () => {
+            (function () {
+                mesh.rotate('a', 'y', 100);
+            }).should.throw('Axis A must be one of x, y, or z');
+
+            (function () {
+                mesh.rotate('x', 'b', 100);
+            }).should.throw('Axis B must be one of x, y, or z');
+
+            (function () {
+                mesh.rotate('x', 'y', false);
+            }).should.throw('Theta must be numeric');
+        });
+    });
+
     describe('generateUniqueId()', () => {
         it('should generate 5-character alphanumeric id\'s', () => {
             const mesh = new SimpleMesh(new Ctx, {});
